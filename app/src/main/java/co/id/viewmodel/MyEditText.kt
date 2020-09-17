@@ -43,7 +43,7 @@ class MyEditText : AppCompatEditText {
                     View.LAYOUT_DIRECTION_RTL -> {
                         clearButtonEnd = (mClearButtonImage.intrinsicWidth + paddingStart).toFloat()
                         when {
-                            event.x > clearButtonEnd -> isClearButtonClicked = true
+                            event.x < clearButtonEnd -> isClearButtonClicked = true
                         }
                     }
                     else -> {
@@ -56,6 +56,11 @@ class MyEditText : AppCompatEditText {
                 when {
                     isClearButtonClicked -> when {
                         event.action == MotionEvent.ACTION_DOWN -> {
+                            mClearButtonImage = ResourcesCompat.getDrawable(resources, R.drawable.ic_close_black_24dp, null) as Drawable
+                            showClearButton()
+                            return@OnTouchListener true
+                        }
+                        event.action == MotionEvent.ACTION_UP -> {
                             mClearButtonImage = ResourcesCompat.getDrawable(resources, R.drawable.ic_close_black_24dp, null) as Drawable
                             when {
                                 text != null -> text?.clear()
